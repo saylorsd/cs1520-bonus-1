@@ -29,10 +29,10 @@
         var display_list = [];
         var found = false;
         for (var i = 0; i < items.length; i++) {
-            if (items[i].search(curr_input) == 0) { //i.e. it's in the beginnning of the word
+            if (items[i].toLowerCase().search(curr_input.toLowerCase()) == 0) { //i.e. it's in the beginning of the word
                 display_list.push(items[i]);
                 console.log(display_list);
-                $('#predictions li').remove();
+                $('#predictions').find('li').remove();
                 $.each(display_list, function (i) {
                     var li = $('<li/>')
                         .addClass('prediction-result')
@@ -44,20 +44,23 @@
             }
         }
         if (!found || curr_input == "") {
-            $('#predictions li').remove();
+            $('#predictions').find('li').remove();
         }
     });
+
     $('.flexsearch-form').on('submit', function (e) {
         e.preventDefault();
         var query = $('.flexsearch-input').val();
         console.log(query);
-        window.location.href = "https://www.google.com/?q=" + encodeURIComponent(query);
+        window.location.href = "https://www.google.com/?gws_rd=ssl#safe=off&q=" + encodeURIComponent(query);
     });
 
-    $('.prediction-result').on('click', function (e) {
-        alert('hey');
+    $('#predictions').on("click", ".prediction-result", function () {
+        console.log('clicked');
         var input = $(this).text();
         console.log(input);
         $('.flexsearch-input').val(input);
+        $('#predictions').hide();
     });
+
 })();
